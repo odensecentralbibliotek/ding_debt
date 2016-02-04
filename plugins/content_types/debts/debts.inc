@@ -77,7 +77,10 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
       );
       $rows[] = $row;
     }
-
+        /*
+    * Add JS
+    */
+   
     $table = theme('table', array(
       'header' => $header,
       'rows' => $rows,
@@ -93,6 +96,8 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
   else {
     $block->content = t('No debts');
   }
+  $attach_js = "<script src=/". drupal_get_path('module', 'ding_debt') . '/js/ding_debt_attached.js'."></script>";
+  $block->content .= $attach_js;
   return $block;
 }
 
@@ -114,7 +119,6 @@ function ding_debt_debts_form($form, &$form_state, $debts = array()) {
     '#type' => 'value',
     '#value' => $debts,
   );
-
   $form['pay'] = array(
     '#type' => 'submit',
     '#prefix' => '<div class="pay-button">',
@@ -124,7 +128,6 @@ function ding_debt_debts_form($form, &$form_state, $debts = array()) {
 
   return $form;
 }
-
 /**
  * Submit handler for the form.
  */
