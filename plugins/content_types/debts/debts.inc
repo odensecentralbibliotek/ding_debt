@@ -32,8 +32,18 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
   $block->delta  = 'debts';
   $block->title = t('My debts');
 
-  $debts = ding_provider_invoke_page('debt', 'list', $account);
-
+  $nonpayable_debts = array();
+  $debts = ding_provider_invoke_page('debt', 'list', $account,true);
+  $tmp = $debts;
+  foreach($tmp as $index => $debt)
+  {
+      if($debt->payableByClient == false)
+      {
+          $nonpayable_debts[$index] = $debt;
+          unset($debts[$index]);
+      }
+  }
+  $tmp = null;
   if (count($debts) == TRUE) {
 
     $header = array(
@@ -97,7 +107,7 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
     $block->content = t('No debts');
   }
   $attach_js = "<script src=/". drupal_get_path('module', 'ding_debt') . '/js/ding_debt_attached.js'."></script>";
-  $block->content .= $attach_js;
+  $block->content .= $attach_js . "<br/><br/>";
   return $block;
 }
 
@@ -154,4 +164,3 @@ function ding_debt_debts_form_submit($form, &$form_state) {
     }
   }
 }
-
