@@ -27,8 +27,8 @@ function ding_debt_nonpayable_debts_content_type_render($subtype, $conf, $panel_
         }
     }
     $table = ding_debt_debts_nonpayable_form($debts);
-    $block->content  = "<div>".t("Da dette mellemværende er sendt til inddrivelse, bedes du betale på udsendte faktura(er) eller ved personlig henvendelse på <a href='/biblioteker'>biblioteket</a>.")."</div><br/>";
-    $block->content .= render($table);
+    $block->content  = "<div>".t("Da dette mellemværende er sendt til inddrivelse, bedes du betale på udsendte faktura(er) eller ved personlig henvendelse på <a target='_blank' href='/biblioteker'>biblioteket</a>.")."</div><br/>";
+    $block->content .= render($table)."<br/><br/>";
     return $block;
 }
 
