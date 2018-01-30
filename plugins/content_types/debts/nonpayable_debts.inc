@@ -45,14 +45,16 @@ function ding_debt_debts_nonpayable_form($debts = array()) {
         $header = array(
             array('data' => t('Fee date'), 'class' => 'feedate'),
             array('data' => t('Material name'), 'class' => 'feetitle'),
+            array('data' => t('Type'), 'class' => 'feetype'),
             array('data' => t('Amount'), 'class' => 'feeamount'),
         );
         $rows = array();
         $is_invoice = false;
         foreach ($debts as $index => $debt) {
             $row = array(
-                array('data' => format_date(strtotime(check_plain($debt->date)), 'date_only'), 'class' => 'feedate'),
+                array('data' => format_date(strtotime(check_plain($debt->date)), 'date_only'), 'class' => 'feedate '),
                 array('data' => $debt->display_name, 'class' => 'feetitle'),
+                array('data' => t($debt->type), 'class' => 'feetype'),
                 array('data' => ( $is_invoice ) ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '), 'class' => 'feeamount'),
             );
             $rows[] = $row;
@@ -60,6 +62,7 @@ function ding_debt_debts_nonpayable_form($debts = array()) {
         $table = theme('table', array(
             'header' => $header,
             'rows' => $rows,
+            'attributes' => array('class' => array('ding_debt_table')),
         ));
 
         return $table;

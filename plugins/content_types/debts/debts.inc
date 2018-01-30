@@ -49,6 +49,7 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
     $header = array(
       array('data' => t('Fee date'), 'class' => 'feedate'),
       array('data' => t('Material name'), 'class' => 'feetitle'),
+      array('data' => t('Type'), 'class' => 'feetype'),
       array('data' => t('Amount'), 'class' => 'feeamount'),
     );
 
@@ -65,6 +66,7 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
       $row = array(
         array('data' => format_date(strtotime(check_plain($debt->date)), 'date_only'), 'class' => 'feedate'),
         array('data' => $debt->display_name, 'class' => 'feetitle'),
+        array('data' => t($debt->type), 'class' => 'feetype'),
         array('data' => ( $is_invoice ) ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '), 'class' => 'feeamount'),
       );
       $rows[] = $row;
@@ -72,9 +74,10 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
 
     // add total
     $row = array(
-      array('data' => t('Total'), 'class' => 'feedate', 'header' => TRUE),
+      array('data' => t('Total'), 'class' => 'feedate feedate-total', 'header' => TRUE),
       array('data' => '', 'class' => 'feetitle', 'header' => TRUE),
-      array('data' => number_format($total_amount, 2, ',', ' '), 'class' => 'feeamount', 'header' => TRUE),
+      array('data' => '', 'class' => 'feetitle', 'header' => TRUE),
+      array('data' => number_format($total_amount, 2, ',', ' '), 'class' => 'feeamount feeamount-total', 'header' => TRUE),
     );
     $rows[] = $row;
 
@@ -94,6 +97,7 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
     $table = theme('table', array(
       'header' => $header,
       'rows' => $rows,
+      'attributes' => array('class' => array('ding_debt_table')),
     ));
 
     if ( $total_amount ) {
